@@ -1,6 +1,11 @@
 close all; clear all; clc;
 warning('off','all');
-% Must be defined
+
+%% EXEMPLO MATLAB HELP REFERENCIA
+% http://www.mathworks.com/help/control/examples/temperature-control-in-a-heat-exchanger.html#zmw57dd0e6207
+% -----------------------------------
+
+%% Must be defined
 simulation_time = 500;
 
 % Para ver a resposta na fase minima
