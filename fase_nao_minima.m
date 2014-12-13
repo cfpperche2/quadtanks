@@ -67,7 +67,7 @@ gs22_d = double(coeff_gs22(1));
 
 %% Executa modelo em malha aberta
 simulation_time = 500;
-simOut = sim('process_model_simulink',simulation_time);
+simOut = sim('quadtanks_model',simulation_time);
 %% Parametros do modelo
 [Kc_gs11, Tau_gs11, Theta_gs11] = model_params(U1t, Yt_gs11);
 [Kc_gs12, Tau_gs12, Theta_gs12] = model_params(U1t, Yt_gs12);
@@ -75,12 +75,13 @@ simOut = sim('process_model_simulink',simulation_time);
 [Kc_gs22, Tau_gs22, Theta_gs22] = model_params(U2t, Yt_gs22);
 
 %% Sintonia PID - Método IMC com atraso
+
 %Controlador 1
-lambda1 = (Tau_gs11+Theta_gs11)/2;
-[Kp1 Ti1 Td1] = imca(Kc_gs11, Tau_gs11, Theta_gs11, lambda1, 'PI');
+lambda1 = (Tau_gs12+Theta_gs12)/2;
+[Kp1 Ti1 Td1] = imca(Kc_gs12, Tau_gs12, Theta_gs12, lambda1, 'PI');
 %Controlador 2
-lambda2 = (Tau_gs22+Theta_gs22)/2;
-[Kp2 Ti2 Td2] = imca(Kc_gs22, Tau_gs22, Theta_gs22, lambda2, 'PI');
+lambda2 = (Tau_gs21+Theta_gs21)/2;
+[Kp2 Ti2 Td2] = imca(Kc_gs21, Tau_gs21, Theta_gs21, lambda2, 'PI');
 
 %% Resultados
 fprintf('----------------- Dados G(s) -----------------\n');
