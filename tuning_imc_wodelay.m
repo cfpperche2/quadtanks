@@ -1,4 +1,5 @@
-function [Kc Ti Td] = imca(K, tau, theta, lambda, type)
+%% Tuning IMC without delay time
+function [Kc Ti Td] = tuning_imc_wodelay(K, tau, theta, lambda, type)
     Kc=0;
     Ti = 0;
     Td = 0;

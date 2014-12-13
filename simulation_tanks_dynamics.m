@@ -1,5 +1,5 @@
 %%
-function [sys,x0,str,ts,simStateCompliance] = tank_dynamics(t,x,u,flag,P)
+function [sys,x0,str,ts,simStateCompliance] = simulation_tanks_dynamics(t,x,u,flag,P)
     switch flag,
         % Initialization
         case 0,

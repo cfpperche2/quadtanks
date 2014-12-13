@@ -12,10 +12,3 @@ ypp = diff(y,2);
 t_infl = fzero(@(T) interp1(t(2:end-1),ypp,T,'linear','extrap'),0)
 y_infl = interp1(t,y,t_infl,'linear')
 plot(t_infl,y_infl,'ro');
-
-x=-1.999:0.001:1.999;
-y=(x-1).*(x+1); 
-plot(x,y) 
-hold on
-plot(x,zeros(length(x),1),'--r') 
-find(abs(y)<1e-3)

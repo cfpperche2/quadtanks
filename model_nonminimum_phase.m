@@ -1,26 +1,10 @@
 %% Script Quadruple Tanks for Nonminimum Phase
-clear all; close all; clc;
 
-% Tank cross-section [cm^2]
-A1 = 4.9; A2=A1; A3=A1; A4=A1; 
-% Outlet hole cross-sections [cm^2]
-a1 = 0.03; a2=a1; a3=a1; a4=a1; 
-% Pump constants [cm^3 V^{-1} s^{-1}]
-k1 = 1.6; k2=k1;
-% Measurement constant [V cm^{-1}]
-kc = 0.5;
-% Acceleration of gravitation [cm s^{-2}]
-g = 981; 
-% Operating point in lower tank 1 [cm]
-h10 = 10; 
-% Operating point in lower tank 2 [cm]
-h20 = 10; 
-% Corresponding pump signal [V]
-u10 = a1/k1*sqrt(2*g*h10); 
-% Corresponding pump signal [V]
-u20 = a2/k2*sqrt(2*g*h20); 
+%% Initialize common model params
+model_const_params
 
 %% Nonminimun Phase Parameters
+
 h30 = 4.9; %cm
 h40 = h30; %cm 
 
@@ -66,22 +50,22 @@ gs22_ds = double(coeff_gs22(2));
 gs22_d = double(coeff_gs22(1));
 
 %% Executa modelo em malha aberta
-simulation_time = 500;
 simOut = sim('quadtanks_model',simulation_time);
 %% Parametros do modelo
-[Kc_gs11, Tau_gs11, Theta_gs11] = model_params(U1t, Yt_gs11);
-[Kc_gs12, Tau_gs12, Theta_gs12] = model_params(U1t, Yt_gs12);
-[Kc_gs21, Tau_gs21, Theta_gs21] = model_params(U2t, Yt_gs21);
-[Kc_gs22, Tau_gs22, Theta_gs22] = model_params(U2t, Yt_gs22);
+[Kc_gs11, Tau_gs11, Theta_gs11] = model_evaluate_params(U1t, Yt_gs11);
+[Kc_gs12, Tau_gs12, Theta_gs12] = model_evaluate_params(U1t, Yt_gs12);
+[Kc_gs21, Tau_gs21, Theta_gs21] = model_evaluate_params(U2t, Yt_gs21);
+[Kc_gs22, Tau_gs22, Theta_gs22] = model_evaluate_params(U2t, Yt_gs22);
 
 %% Sintonia PID - Método IMC com atraso
 
-%Controlador 1
+%Controlador 1 G(s) 12
 lambda1 = (Tau_gs12+Theta_gs12)/2;
-[Kp1 Ti1 Td1] = imca(Kc_gs12, Tau_gs12, Theta_gs12, lambda1, 'PI');
-%Controlador 2
+[Kp1 Ti1 Td1] = tuning_imc_wdelay(Kc_gs12, Tau_gs12, Theta_gs12, lambda1, 'PI');
+
+%Controlador 2 G(s) 21
 lambda2 = (Tau_gs21+Theta_gs21)/2;
-[Kp2 Ti2 Td2] = imca(Kc_gs21, Tau_gs21, Theta_gs21, lambda2, 'PI');
+[Kp2 Ti2 Td2] = tuning_imc_wdelay(Kc_gs21, Tau_gs21, Theta_gs21, lambda2, 'PI');
 
 %% Resultados
 fprintf('----------------- Dados G(s) -----------------\n');
@@ -89,14 +73,14 @@ fprintf('C1: %.5f\n', c1);
 fprintf('C2: %.5f\n', c2);
 fprintf('gamma1: %.5f\n', gamma1);
 fprintf('gamma2: %.5f\n', gamma2);
-fprintf('----------------- Curva Reativa G11(s)-----------------\n');
-fprintf('Ganho Kc: %.3f\n', Kc_gs11);
-fprintf('Constante de tempo: %.3f\n', Tau_gs11);
-fprintf('Tempo morto: %.5f\n', Theta_gs11);
-fprintf('----------------- Curva Reativa G22(s)-----------------\n');
-fprintf('Ganho Kc: %.3f\n', Kc_gs22);
-fprintf('Constante de tempo: %.3f\n', Tau_gs22);
-fprintf('Tempo morto: %.5f\n', Theta_gs22);
+fprintf('----------------- Curva Reativa G12(s)-----------------\n');
+fprintf('Ganho Kc: %.3f\n', Kc_gs12);
+fprintf('Constante de tempo: %.3f\n', Tau_gs12);
+fprintf('Tempo morto: %.5f\n', Theta_gs12);
+fprintf('----------------- Curva Reativa G21(s)-----------------\n');
+fprintf('Ganho Kc: %.3f\n', Kc_gs21);
+fprintf('Constante de tempo: %.3f\n', Tau_gs21);
+fprintf('Tempo morto: %.5f\n', Theta_gs21);
 fprintf('----------------- Controlador 1 -----------------\n');
 fprintf('Kp: %.5f\n', Kp1);
 fprintf('Ti: %.5f\n', Ti1);
@@ -107,7 +91,7 @@ fprintf('Ti: %.5f\n', Ti2);
 fprintf('Td: %.5f\n', Td2);
 
 %% Plot resposta em malha aberta para o modelo de fase minima
-figure(1)
+figure
 % G11(s)
 subplot(2,2,1);
 plot(simOut,U1t);
@@ -116,7 +100,7 @@ plot(simOut,Yt_gs11, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase não mínima G11(s)');
+title('Resposta modelo fase não mínima G11(s)');
 axis auto
 datacursormode on
 % G12(s)
@@ -127,7 +111,7 @@ plot(simOut,Yt_gs12, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase não mínima G12(s)');
+title('Resposta modelo fase não mínima G12(s)');
 axis auto
 datacursormode on
 % G21(s)
@@ -138,7 +122,7 @@ plot(simOut,Yt_gs21, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase não mínima G21(s)');
+title('Resposta modelo fase não mínima G21(s)');
 axis auto
 datacursormode on
 % G22(s)
@@ -149,6 +133,7 @@ plot(simOut,Yt_gs22, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase não mínima G22(s)');
+title('Resposta modelo fase não mínima G22(s)');
 axis auto
 datacursormode on
+

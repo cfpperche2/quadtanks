@@ -1,5 +1,5 @@
 %% 
-function PlotTanks(u)
+function simulation_plot_tanks(u)
 % hi == 1 Full tank
 % To init the time must be 0
     t = u(5);
@@ -173,7 +173,7 @@ function PlotTanks(u)
         % Form the plots, Use handles to change colors with operatin conditions
         % -----------------------------------------------------------------------
         hold on
-        axis off
+        axis manual
         % PLOTTIING For the structure 
 
         % bottom piping (furthest upstream/connection to bottom tanks) [ Green is flowing, black is empty]
@@ -181,8 +181,8 @@ function PlotTanks(u)
         plot(RightPiping(:,1),RightPiping(:,2),'k',RightPipingSide(:,1),RightPipingSide(:,2),'k');
 
         % Valves [ Color Convention] 
-        lValvePlot = plot(LeftValve(:,1),LeftValve(:,2),'g');
-        rValvePlot = plot(RightValve(:,1),RightValve(:,2),'g');
+        lValvePlot = plot(LeftValve(:,1),LeftValve(:,2),'b');
+        rValvePlot = plot(RightValve(:,1),RightValve(:,2),'b');
 
         % Top piping (connection to the top tanks)
         plot(LeftPiping2(:,1),LeftPiping2(:,2),'k');
@@ -190,8 +190,11 @@ function PlotTanks(u)
 
         % Tanks 
         plot(LeftUpperTank(:,1),LeftUpperTank(:,2),'k');
+        
         plot(RightUpperTank(:,1),RightUpperTank(:,2),'k');
+        
         plot(LeftLowerTank(:,1),LeftLowerTank(:,2),'k');
+
         plot(RightLowerTank(:,1),RightLowerTank(:,2),'k');
 
         % connection between upper and lower tanks

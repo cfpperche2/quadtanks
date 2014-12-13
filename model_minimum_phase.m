@@ -1,23 +1,7 @@
 %% Script Quadruple Tanks for Minimum Phase
-clear all; close all; clc;
-% Tank cross-section [cm^2]
-A1 = 4.9; A2=A1; A3=A1; A4=A1; 
-% Outlet hole cross-sections [cm^2]
-a1 = 0.03; a2=a1; a3=a1; a4=a1; 
-% Pump constants [cm^3 V^{-1} s^{-1}]
-k1 = 1.6; k2=k1;
-% Measurement constant [V cm^{-1}]
-kc = 0.5;
-% Acceleration of gravitation [cm s^{-2}]
-g = 981; 
-% Operating point in lower tank 1 [cm]
-h10 = 10; 
-% Operating point in lower tank 2 [cm]
-h20 = 10; 
-% Corresponding pump signal [V]
-u10 = a1/k1*sqrt(2*g*h10); 
-% Corresponding pump signal [V]
-u20 = a2/k2*sqrt(2*g*h20); 
+
+%% Initialize common model params
+model_const_params
 
 %% Minimun Phase Parameters
 h30 = 0.9; %cm
@@ -65,23 +49,23 @@ gs22_ds = double(coeff_gs22(2));
 gs22_d = double(coeff_gs22(1));
 
 %% Executa modelo em malha aberta
-simulation_time = 200;
 simOut = sim('quadtanks_model',simulation_time);
 
 %% Parametros do modelo
-[Kc_gs11, Tau_gs11, Theta_gs11] = model_params(U1t, Yt_gs11);
-[Kc_gs12, Tau_gs12, Theta_gs12] = model_params(U1t, Yt_gs12);
-[Kc_gs21, Tau_gs21, Theta_gs21] = model_params(U2t, Yt_gs21);
-[Kc_gs22, Tau_gs22, Theta_gs22] = model_params(U2t, Yt_gs22);
+[Kc_gs11, Tau_gs11, Theta_gs11] = model_evaluate_params(U1t, Yt_gs11);
+[Kc_gs12, Tau_gs12, Theta_gs12] = model_evaluate_params(U1t, Yt_gs12);
+[Kc_gs21, Tau_gs21, Theta_gs21] = model_evaluate_params(U2t, Yt_gs21);
+[Kc_gs22, Tau_gs22, Theta_gs22] = model_evaluate_params(U2t, Yt_gs22);
 
 %% Sintonia PID - Método IMC com atraso
-%Controlador 1
-lambda1 = (Tau_gs11+Theta_gs11)/2;
-[Kp1 Ti1 Td1] = imca(Kc_gs11, Tau_gs11, Theta_gs11, lambda1, 'PI');
 
-%Controlador 2
+%Controlador 1 G(s) 11
+lambda1 = (Tau_gs11+Theta_gs11)/2;
+[Kp1 Ti1 Td1] = tuning_imc_wodelay(Kc_gs11, Tau_gs11, Theta_gs11, lambda1, 'PI');
+
+%Controlador 2 G(s) 22
 lambda2 = (Tau_gs22+Theta_gs22)/2;
-[Kp2 Ti2 Td2] = imca(Kc_gs22, Tau_gs22, Theta_gs22, lambda2, 'PI');
+[Kp2 Ti2 Td2] = tuning_imc_wodelay(Kc_gs22, Tau_gs22, Theta_gs22, lambda2, 'PI');
 
 %% Resultados
 fprintf('----------------- Dados G(s) -----------------\n');
@@ -116,7 +100,7 @@ plot(simOut,Yt_gs11, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase mínima G11(s)');
+title('Resposta modelo fase mínima G11(s)');
 axis auto
 datacursormode on
 %% G12(s)
@@ -127,7 +111,7 @@ plot(simOut,Yt_gs12, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase mínima G12(s)');
+title('Resposta modelo fase mínima G12(s)');
 axis auto
 datacursormode on
 %% G21(s)
@@ -138,7 +122,7 @@ plot(simOut,Yt_gs21, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase mínima G21(s)');
+title('Resposta modelo fase mínima G21(s)');
 axis auto
 datacursormode on
 %% G22(s)
@@ -149,6 +133,6 @@ plot(simOut,Yt_gs22, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta em malha aberta fase mínima G22(s)');
+title('Resposta modelo fase mínima G22(s)');
 axis auto
 datacursormode on
