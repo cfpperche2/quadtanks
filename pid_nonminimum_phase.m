@@ -3,7 +3,7 @@
 % Decouplers - IN TEST
 W1 = eye(2); W2 = eye(2);
 %% Executa modelo em malha fechada
-simOut = sim('quadtanks_pid',simulation_time);
+simOut = sim('quadtanks_pid_nonminimum',simulation_time);
 
 %% Resultados
 

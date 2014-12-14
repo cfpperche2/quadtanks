@@ -100,7 +100,7 @@ plot(simOut,Yt_gs11, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta modelo fase mínima G11(s)');
+title(sprintf('Resposta modelo\nfase mínima G11(s)'));
 axis auto
 datacursormode on
 %% G12(s)
@@ -111,7 +111,7 @@ plot(simOut,Yt_gs12, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta modelo fase mínima G12(s)');
+title(sprintf('Resposta modelo\nfase mínima G12(s)'));
 axis auto
 datacursormode on
 %% G21(s)
@@ -122,7 +122,7 @@ plot(simOut,Yt_gs21, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta modelo fase mínima G21(s)');
+title(sprintf('Resposta modelo\nfase mínima G21(s)'));
 axis auto
 datacursormode on
 %% G22(s)
@@ -133,6 +133,6 @@ plot(simOut,Yt_gs22, 'k');
 grid on;
 xlabel('Time (ms)');
 ylabel('Amplitude');
-title('Resposta modelo fase mínima G22(s)');
+title(sprintf('Resposta modelo\nfase mínima G22(s)'));
 axis auto
 datacursormode on
