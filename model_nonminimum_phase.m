@@ -16,6 +16,12 @@ T2 = (A2/a2)*sqrt((2*h20)/g);
 T3 = (A3/a3)*sqrt((2*h30)/g);
 T4 = (A4/a4)*sqrt((2*h40)/g);
 
+Ap = [-1/T1 0 A3/(A1*T3) 0; 0 -1/T2 0 A4/(A2*T4); 0 0 -1/T3 0; 0 0 0 -1/T4];
+Bp = [gamma1*k1/A1 0; 0 gamma2*k2/A2; 0 (1-gamma2)*k2/A3; (1-gamma1)*k1/A4 0];
+Cp = [kc 0 0 0; 0 kc 0 0];
+
+Gnonmin = tf(ss(Ap,Bp,Cp,0));
+
 c1 = (T1*k1*kc)/A1;
 c2 = (T2*k2*kc)/A2;
 
@@ -116,7 +122,7 @@ axis auto
 datacursormode on
 % G21(s)
 subplot(2,2,3);
-plot(simOut,U1t);
+plot(simOut,U2t);
 hold on;
 plot(simOut,Yt_gs21, 'k');
 grid on;

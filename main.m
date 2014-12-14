@@ -14,13 +14,13 @@ simulation_time = 300;
 ut1_step_time = 50;
 ut1_initial_value = 0;
 ut1_final_value = 1;
-ut1_sample_time = 0.01; %Precisão da amostra, influencia nos gráficos
+ut1_sample_time = 0; %Precisão da amostra, influencia nos gráficos
 
 % Valores para entrada Ut2 (Step 2)
 ut2_step_time = 50;
 ut2_initial_value = 0;
 ut2_final_value = 1;
-ut2_sample_time = 0.01; %Precisão da amostra, influencia nos gráficos
+ut2_sample_time = 0; %Precisão da amostra, influencia nos gráficos
 
 %% Para ver a resposta na fase minima
 model_minimum_phase;

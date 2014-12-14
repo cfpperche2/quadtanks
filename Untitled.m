@@ -12,3 +12,15 @@ ypp = diff(y,2);
 t_infl = fzero(@(T) interp1(t(2:end-1),ypp,T,'linear','extrap'),0)
 y_infl = interp1(t,y,t_infl,'linear')
 plot(t_infl,y_infl,'ro');
+
+
+figure
+plot(simOut,U1t);
+hold on;
+plot(simOut,Yt_gs12, 'r');
+grid on;
+xlabel('Time (ms)');
+ylabel('Amplitude');
+title(sprintf('Resposta modelo\nfase não mínima G12(s)'));
+axis([min(simOut) max(simOut) -max(Yt_gs12)/2 max(Yt_gs12)])
+datacursormode on
