@@ -6,7 +6,7 @@ a1 = 0.03; a2=a1; a3=a1; a4=a1;
 % Pump constants [cm^3 V^{-1} s^{-1}]
 k1 = 1.6; k2=k1;
 % Measurement constant [V cm^{-1}]
-kc = 0.5;
+kc = 0.5; %10/16; % Measurement constant [V cm^{-1}] 0.5?!
 % Acceleration of gravitation [cm s^{-2}]
 g = 981; 
 % Operating point in lower tank 1 [cm]

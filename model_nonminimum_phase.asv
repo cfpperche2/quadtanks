@@ -249,9 +249,9 @@ Kc_gs12 = Kc;
 Tau_gs12= TauX;
 Theta_gs12 = CutX;
 
-Kc_gs21 = Kc_gs12; 
-Tau_gs21 = Tau_gs12;
-Theta_gs21 = Theta_gs12;
+Kc_gs21 = Kc_gs11; 
+Tau_gs21 = Tau_gs11;
+Theta_gs21 = Theta_gs11;
 
 %% Sintonia PID - Método IMC com atraso
 
@@ -265,8 +265,8 @@ lambda2 = (Tau_gs21+Theta_gs21)/2;
 
 %% Resultados
 fprintf('------------- Fase Não Mínima Dados G(s) -------------\n');
-%fprintf('C1: %.5f\n', c1);
-%fprintf('C2: %.5f\n', c2);
+fprintf('C1: %.5f\n', c1);
+fprintf('C2: %.5f\n', c2);
 fprintf('gamma1: %.5f\n', gamma1);
 fprintf('gamma2: %.5f\n', gamma2);
 fprintf('Zeros: %.5f\n', Zeros);
@@ -290,7 +290,6 @@ fprintf('Ti: %.5f\n', Ti2);
 fprintf('Td: %.5f\n', Td2);
 
 %% Plot resposta em malha aberta para o modelo de fase minima
-%{
 figure
 % G11
 subplot(2,2,1);
@@ -336,4 +335,4 @@ ylabel('Amplitude');
 title(sprintf('Resposta modelo\nfase não mínima G22'));
 axis auto
 datacursormode on
-%}
+
